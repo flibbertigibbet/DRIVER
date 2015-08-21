@@ -18,6 +18,8 @@ postgresql_host: "database.service.driver.internal"
 postgresql_port: 5432
 postgresql_version: "9.4"
 
+redis_bind_address: "database.service.driver.internal"
+
 ## WEB SETTINGS
 web_js_html5mode: "true"
 web_js_html5mode_prefix: "!"

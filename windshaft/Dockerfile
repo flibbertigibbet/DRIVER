@@ -5,7 +5,7 @@ MAINTAINER Azavea
 RUN apt-get update
 
 # Windshaft requires node < 11; vivid has 10.25 in nodejs package
-RUN apt-get -q install -y nodejs npm git-core redis-server \
+RUN apt-get -q install -y nodejs npm git-core \
     libcairo2-dev libpango1.0-dev libjpeg8-dev libgif-dev libpq-dev
 
 # link nodejs command to node
