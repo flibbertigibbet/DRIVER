@@ -86,17 +86,6 @@
             $log.debug('occurred from changed');
             /* jshint camelcase: false */
             $log.debug(ctl.record.occurred_from);
-            // TODO: dynamically set min/max dates
-            //ctl.occurredToOptions = {minDate: ctl.record.occurred_from};
-            /* jshint camelcase: true */
-        }
-
-        function occurredToChanged() {
-            $log.debug('occurred to changed');
-            /* jshint camelcase: false */
-            $log.debug(ctl.record.occurred_to);
-            // TODO: dynamically set min/max dates
-            //ctl.occurredFromOptions = {maxDate: ctl.record.occurred_to};
             /* jshint camelcase: true */
         }
 
@@ -218,6 +207,8 @@
             // If there is already a record, set the new editorData and update, else create one
             var saveMethod = null;
             var dataToSave = null;
+
+            /* jshint camelcase: false */
             if (ctl.record.geom) {
                 // set back coordinates
                 ctl.record.geom.coordinates = [ctl.geom.lng, ctl.geom.lat];
@@ -229,7 +220,6 @@
             } else {
                 saveMethod = 'create';
                 dataToSave = {
-                    /* jshint camelcase: false */
                     data: editorData,
                     schema: ctl.recordSchema.uuid,
 
@@ -240,9 +230,9 @@
                     occurred_from: ctl.record.occurred_from,
                     // set `to` date to match `from` date
                     occurred_to: ctl.record.occurred_from
-                    /* jshint camelcase: true */
                 };
             }
+            /* jshint camelcase: true */
 
             Records[saveMethod](dataToSave, function (record) {
                 $log.debug('Saved record with uuid: ', record.uuid);
