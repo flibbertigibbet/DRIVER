@@ -291,7 +291,7 @@ OIDC_PROVIDERS = { }
 if len(GOOGLE_OAUTH_CLIENT_ID) > 0:
     # see: https://developers.google.com/identity/protocols/OpenIDConnect?hl=en
     # example config towards bottom of page
-    OIDC_PROVIDERS['google.com'] = {
+    OIDC_PROVIDERS['Google'] = {
         "provider_info": {
             "issuer": "https://accounts.google.com",
             "authorization_endpoint": "https://accounts.google.com/o/oauth2/v2/auth",
@@ -338,6 +338,211 @@ if len(GOOGLE_OAUTH_CLIENT_ID) > 0:
         "client_registration": {
             "client_id": GOOGLE_OAUTH_CLIENT_ID,
             "client_secret": GOOGLE_OAUTH_CLIENT_SECRET,
+            "redirect_uris": [HOST_URL + "/openid/callback/login/"],
+            "post_logout_redirect_uris": [HOST_URL + "/openid/callback/logout/"],
+        }
+    }
+
+if len(GLUU_OAUTH_CLIENT_ID) > 0:
+    # derived from examining example at:
+    # https://idp.gluu.org/.well-known/openid-configuration
+    OIDC_PROVIDERS['GLUU'] = {
+        "provider_info": {
+        "issuer": GLUU_HOST,
+        "authorization_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/oxauth/authorize",
+        "token_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/oxauth/token",
+        "userinfo_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/oxauth/userinfo",
+        "clientinfo_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/oxauth/clientinfo",
+        "check_session_iframe": GLUU_HOST + "/oxauth/opiframe.seam",
+        "end_session_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/oxauth/end_session",
+        "jwks_uri": GLUU_HOST + "/oxauth/seam/resource/restv1/oxauth/jwks",
+        "registration_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/oxauth/register",
+        "validate_token_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/oxauth/validate",
+        "federation_metadata_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/oxauth/federationmetadata",
+        "federation_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/oxauth/federation",
+        "id_generation_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/id",
+        "introspection_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/introspection",
+        "scopes_supported": [
+            "last_name",
+            "profile",
+            "first_name",
+            "user_name",
+            "email",
+            "openid",
+            "address"
+        ],
+        "response_types_supported": [
+            "code",
+            "code id_token",
+            "token",
+            "token id_token",
+            "code token",
+            "code token id_token",
+            "id_token"
+        ],
+        "grant_types_supported": [
+            "authorization_code",
+            "implicit",
+            "urn:ietf:params:oauth:grant-type:jwt-bearer"
+        ],
+        "acr_values_supported": [
+            "https://schema.gluu.org/openid/acr/method/saml2",
+            "https://schema.gluu.org/openid/acr/method/basic"
+        ],
+        "subject_types_supported": [
+            "public",
+            "pairwise"
+        ],
+        "userinfo_signing_alg_values_supported": [
+            "HS256",
+            "HS384",
+            "HS512",
+            "RS256",
+            "RS384",
+            "RS512",
+            "ES256",
+            "ES384",
+            "ES512"
+        ],
+        "userinfo_encryption_alg_values_supported": [
+            "RSA1_5",
+            "RSA-OAEP",
+            "A128KW",
+            "A256KW"
+        ],
+        "userinfo_encryption_enc_values_supported": [
+            "RSA1_5",
+            "RSA-OAEP",
+            "A128KW",
+            "A256KW"
+        ],
+        "id_token_signing_alg_values_supported": [
+            "HS256",
+            "HS384",
+            "HS512",
+            "RS256",
+            "RS384",
+            "RS512",
+            "ES256",
+            "ES384",
+            "ES512"
+        ],
+        "id_token_encryption_alg_values_supported": [
+            "RSA1_5",
+            "RSA-OAEP",
+            "A128KW",
+            "A256KW"
+        ],
+        "id_token_encryption_enc_values_supported": [
+            "A128CBC+HS256",
+            "A256CBC+HS512",
+            "A128GCM",
+            "A256GCM"
+        ],
+        "request_object_signing_alg_values_supported": [
+            "HS256",
+            "HS384",
+            "HS512",
+            "RS256",
+            "RS384",
+            "RS512",
+            "ES256",
+            "ES384",
+            "ES512"
+        ],
+        "request_object_encryption_alg_values_supported": [
+            "RSA1_5",
+            "RSA-OAEP",
+            "A128KW",
+            "A256KW"
+        ],
+        "request_object_encryption_enc_values_supported": [
+            "A128CBC+HS256",
+            "A256CBC+HS512",
+            "A128GCM",
+            "A256GCM"
+        ],
+        "token_endpoint_auth_methods_supported": [
+            "client_secret_basic",
+            "client_secret_post",
+            "client_secret_jwt",
+            "private_key_jwt"
+        ],
+        "token_endpoint_auth_signing_alg_values_supported": [
+            "HS256",
+            "HS384",
+            "HS512",
+            "RS256",
+            "RS384",
+            "RS512",
+            "ES256",
+            "ES384",
+            "ES512"
+        ],
+        "display_values_supported": ["page"],
+        "claim_types_supported": ["normal"],
+        "claims_supported": [
+            "uid",
+            "displayName",
+            "givenName",
+            "sn",
+            "mail"
+        ],
+        "service_documentation": "http://gluu.org/docs",
+        "claims_locales_supported": ["en"],
+        "ui_locales_supported": [
+            "en",
+            "es"
+        ],
+        "scope_to_claims_mapping": [
+            {
+                "scope": "last_name",
+                "claims": ["sn"]
+            },
+            {
+                "scope": "profile",
+                "claims": ["photo1"]
+            },
+            {
+                "scope": "first_name",
+                "claims": ["givenName"]
+            },
+            {
+                "scope": "user_name",
+                "claims": ["uid"]
+            },
+            {
+                "scope": "email",
+                "claims": ["mail"]
+            },
+            {
+                "scope": "openid",
+                "claims": ["inum"]
+            },
+            {
+                "scope": "address",
+                "claims": [
+                    "mail",
+                    "street",
+                    "l",
+                    "st",
+                    "postOfficeBox",
+                    "postalCode",
+                    "postalAddress"
+                ]
+            }
+        ],
+        "claims_parameter_supported": True,
+        "request_parameter_supported": True,
+        "request_uri_parameter_supported": True,
+        "require_request_uri_registration": False,
+        "op_policy_uri": "http://ox.gluu.org/doku.php?id=oxauth:policy",
+        "op_tos_uri": "http://ox.gluu.org/doku.php?id=oxauth:tos"
+    },
+        "behaviour": OIDC_DEFAULT_BEHAVIOUR,
+        "client_registration": {
+            "client_id": GLUU_OAUTH_CLIENT_ID,
+            "client_secret": GLUU_OAUTH_CLIENT_SECRET,
             "redirect_uris": [HOST_URL + "/openid/callback/login/"],
             "post_logout_redirect_uris": [HOST_URL + "/openid/callback/logout/"],
         }
