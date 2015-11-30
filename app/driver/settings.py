@@ -256,13 +256,14 @@ ASHLAR = {
 ## django-oidc settings
 HOST_URL = os.environ.get('DRIVER_APP_HOST', os.environ.get('HOSTNAME'))
 
-# TODO: conditionally set for GLUU in production
-GOOGLE_OAUTH_CLIENT_ID = os.environ.get('OAUTH_CLIENT_ID', '')
-GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get('OAUTH_CLIENT_SECRET', '')
+OAUTH_CLIENT_ID = os.environ.get('OAUTH_CLIENT_ID', '')
+OAUTH_CLIENT_SECRET = os.environ.get('OAUTH_CLIENT_SECRET', '')
+
+GLUU_HOST = os.environ.get('GLUU_HOST', '')
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
-if GOOGLE_OAUTH_CLIENT_ID:
+if OAUTH_CLIENT_ID:
     AUTHENTICATION_BACKENDS += ('djangooidc.backends.OpenIdConnectBackend',)
 
 LOGIN_URL = 'openid'
@@ -286,9 +287,9 @@ OIDC_DEFAULT_BEHAVIOUR = {
     "scope": ["openid", "email"],
 }
 
-OIDC_PROVIDERS = { }
+OIDC_PROVIDERS = {}
 
-if len(GOOGLE_OAUTH_CLIENT_ID) > 0:
+if len(OAUTH_CLIENT_ID) > 0 and len(GLUU_HOST) == 0:
     # see: https://developers.google.com/identity/protocols/OpenIDConnect?hl=en
     # example config towards bottom of page
     OIDC_PROVIDERS['Google'] = {
@@ -336,14 +337,14 @@ if len(GOOGLE_OAUTH_CLIENT_ID) > 0:
         },
         "behaviour": OIDC_DEFAULT_BEHAVIOUR,
         "client_registration": {
-            "client_id": GOOGLE_OAUTH_CLIENT_ID,
-            "client_secret": GOOGLE_OAUTH_CLIENT_SECRET,
+            "client_id": OAUTH_CLIENT_ID,
+            "client_secret": OAUTH_CLIENT_SECRET,
             "redirect_uris": [HOST_URL + "/openid/callback/login/"],
             "post_logout_redirect_uris": [HOST_URL + "/openid/callback/logout/"],
         }
     }
 
-if len(GLUU_OAUTH_CLIENT_ID) > 0:
+if len(GLUU_HOST) > 0 and len(OAUTH_CLIENT_ID) > 0:
     # derived from examining example at:
     # https://idp.gluu.org/.well-known/openid-configuration
     OIDC_PROVIDERS['GLUU'] = {
@@ -363,13 +364,10 @@ if len(GLUU_OAUTH_CLIENT_ID) > 0:
         "id_generation_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/id",
         "introspection_endpoint": GLUU_HOST + "/oxauth/seam/resource/restv1/introspection",
         "scopes_supported": [
-            "last_name",
             "profile",
-            "first_name",
             "user_name",
             "email",
-            "openid",
-            "address"
+            "openid"
         ],
         "response_types_supported": [
             "code",
@@ -394,15 +392,7 @@ if len(GLUU_OAUTH_CLIENT_ID) > 0:
             "pairwise"
         ],
         "userinfo_signing_alg_values_supported": [
-            "HS256",
-            "HS384",
-            "HS512",
-            "RS256",
-            "RS384",
-            "RS512",
-            "ES256",
-            "ES384",
-            "ES512"
+            "HS256"
         ],
         "userinfo_encryption_alg_values_supported": [
             "RSA1_5",
@@ -417,15 +407,7 @@ if len(GLUU_OAUTH_CLIENT_ID) > 0:
             "A256KW"
         ],
         "id_token_signing_alg_values_supported": [
-            "HS256",
-            "HS384",
-            "HS512",
-            "RS256",
-            "RS384",
-            "RS512",
-            "ES256",
-            "ES384",
-            "ES512"
+            "HS256"
         ],
         "id_token_encryption_alg_values_supported": [
             "RSA1_5",
@@ -440,15 +422,7 @@ if len(GLUU_OAUTH_CLIENT_ID) > 0:
             "A256GCM"
         ],
         "request_object_signing_alg_values_supported": [
-            "HS256",
-            "HS384",
-            "HS512",
-            "RS256",
-            "RS384",
-            "RS512",
-            "ES256",
-            "ES384",
-            "ES512"
+            "HS256"
         ],
         "request_object_encryption_alg_values_supported": [
             "RSA1_5",
@@ -463,21 +437,10 @@ if len(GLUU_OAUTH_CLIENT_ID) > 0:
             "A256GCM"
         ],
         "token_endpoint_auth_methods_supported": [
-            "client_secret_basic",
-            "client_secret_post",
-            "client_secret_jwt",
-            "private_key_jwt"
+            "client_secret_basic"
         ],
         "token_endpoint_auth_signing_alg_values_supported": [
-            "HS256",
-            "HS384",
-            "HS512",
-            "RS256",
-            "RS384",
-            "RS512",
-            "ES256",
-            "ES384",
-            "ES512"
+            "HS256"
         ],
         "display_values_supported": ["page"],
         "claim_types_supported": ["normal"],
@@ -541,8 +504,8 @@ if len(GLUU_OAUTH_CLIENT_ID) > 0:
     },
         "behaviour": OIDC_DEFAULT_BEHAVIOUR,
         "client_registration": {
-            "client_id": GLUU_OAUTH_CLIENT_ID,
-            "client_secret": GLUU_OAUTH_CLIENT_SECRET,
+            "client_id": OAUTH_CLIENT_ID,
+            "client_secret": OAUTH_CLIENT_SECRET,
             "redirect_uris": [HOST_URL + "/openid/callback/login/"],
             "post_logout_redirect_uris": [HOST_URL + "/openid/callback/logout/"],
         }
