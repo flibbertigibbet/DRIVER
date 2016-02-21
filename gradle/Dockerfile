@@ -9,9 +9,9 @@ MAINTAINER Kathryn Killebrew <kkillebrew@azavea.com>
 RUN apt-get update && apt-get install -yq apt-utils
 
 # make pkg install non-interactive without disabling it for the whole container
-RUN DEBIAN_FRONTEND=noninteractive && \
-    apt-get install -yq ca-certificates ca-certificates-java \
-    redis-tools python-redis zip
+RUN DEBIAN_FRONTEND=noninteractive && apt-get install -yq redis-tools python-redis zip \
+    ca-certificates ca-certificates-java
+    
 
 # install gradle
 ENV GRADLE_VERSION 2.11
@@ -32,6 +32,7 @@ VOLUME /opt/app/data
 ENV GRADLE_HOME /usr/src/gradle
 ENV PATH $PATH:$GRADLE_HOME/bin
 ENV GRADLE_USER_HOME /opt/app/data
+ENV GRADLE_OPTS '-Dorg.gradle.jvmargs="-Xmx2560m -XX:+HeapDumpOnOutOfMemoryError"'
 ENV TERM dumb
 
 # Download and untar Android SDK
