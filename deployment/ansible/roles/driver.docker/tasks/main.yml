@@ -1,2 +1,10 @@
 ---
 - meta: flush_handlers
+
+- name: Install backported kernel
+  apt: pkg={{ item }} state=present
+  with_items:
+    - linux-headers-3.19.0-39
+    - linux-headers-3.19.0-39-generic
+    - linux-image-3.19.0-39-generic
+    - linux-image-extra-3.19.0-39-generic
