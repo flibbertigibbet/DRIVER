@@ -22,7 +22,7 @@
     "json-editor": "azavea/json-editor#v0.7.24",
     "ng-debounce": "^0.1.7",
     "bootstrap-select": "1.7.3",
-    "lodash": "^3.8.0",
+    "lodash": "^4.6.0",
     "leaflet": "~0.7.3",
     "leaflet-draw": "^0.2.4",
     "Leaflet.utfgrid": "danzel/Leaflet.utfgrid",
