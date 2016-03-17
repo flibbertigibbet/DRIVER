@@ -22,6 +22,9 @@
     - { role: "driver.app" }
     - { role: "driver.nginx" }
 
+  environment:
+    PHANTOMJS_CDNURL: http://cnpmjs.org/downloads
+
 - hosts: database-servers
 
   become: True
