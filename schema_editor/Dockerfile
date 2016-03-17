@@ -25,4 +25,6 @@ RUN bower install --allow-root --config.interactive=false --force
 WORKDIR /opt/schema_editor
 COPY . /opt/schema_editor
 
+ENV PHANTOMJS_CDNURL http://cnpmjs.org/downloads
+
 ENTRYPOINT ["grunt"]
