@@ -86,7 +86,7 @@
         // A function to set properties related to whether or not the filterbar should be instantiated for a given page
         function setFilters(state) {
             var filterPages = ['Map', 'Record List'];
-            var isFilterPage = _.contains(filterPages, state.label);
+            var isFilterPage = _.includes(filterPages, state.label);
             ctl.isFilterPage = isFilterPage;
         }
 

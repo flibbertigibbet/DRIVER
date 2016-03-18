@@ -37,7 +37,7 @@
 
         function filterUserList() {
             ctl.users = _.filter(ctl.allUsers, function (user) {
-                return !ctl.groupFilter || _.contains(user.groups, ctl.groupFilter);
+                return !ctl.groupFilter || _.includes(user.groups, ctl.groupFilter);
             });
         }
 
